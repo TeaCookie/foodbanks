@@ -1,0 +1,10 @@
+html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
+#map { position: absolute; inset: 0; }
+#status {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  background: #fff; padding: 8px 12px; border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3); font-size: 13px; max-width: 260px;
+}
+#status button { margin-top: 6px; font-size: 12px; cursor: pointer; }
+.popup h3 { margin: 0 0 4px; font-size: 14px; }
+.popup p { margin: 2px 0; font-size: 12px; }
