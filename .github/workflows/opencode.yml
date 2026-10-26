@@ -11,22 +11,27 @@ jobs:
       contains(github.event.comment.body, '/oc') || contains(github.event.comment.body, '/opencode')
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
-      contents: write
-      issues: write
-      pull-requests: write
-      repository-projects: write
+      contents: write       # Essential for local code inspection
+      issues: write         # For issue context matching
+      pull-requests: write  # For managing branches and PR lines
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          persist-credentials: true
+          persist-credentials: true # Crucial: Preserves token capability so local gh CLI can read the repo tracks
+
+      # Fixes the reading block: Declares explicit local bot context before OpenCode processes the workspace
+      - name: Configure Git Bot Environment
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Run OpenCode
         uses: anomalyco/opencode/github@latest
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Seamlessly binds into the newly configured git shell environment
         with:
           model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
           use_github_token: true
