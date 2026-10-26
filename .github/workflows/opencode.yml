@@ -29,3 +29,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+          skills-directory: .github/skills
+          agents-directory: .github/agents
